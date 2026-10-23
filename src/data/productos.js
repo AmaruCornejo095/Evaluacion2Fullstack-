@@ -91,6 +91,16 @@ export const agregarProducto = (nuevoProducto) => {
   return actualizados;
 };
 
+<<<<<<< HEAD
+=======
+export const actualizarProducto = (id, datosActualizados) => {
+  const productos = obtenerProductos();
+  const actualizados = productos.map(p => p.id === id ? { ...p, ...datosActualizados } : p);
+  localStorage.setItem(PRODUCTOS_KEY, JSON.stringify(actualizados));
+  return actualizados;
+};
+
+>>>>>>> 3d144b6765ab96419def470112d5f48fd7262b52
 export const eliminarProducto = (id) => {
   const productos = obtenerProductos();
   const actualizados = productos.filter(p => p.id !== id);

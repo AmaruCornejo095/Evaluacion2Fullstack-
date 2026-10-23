@@ -95,8 +95,8 @@ function App() {
       </main>
 
       {!esAdmin && (
-        <footer className="bg-dark text-white-50 text-center py-3 mt-5 border-top border-secondary">
-          <small>LogiStock Management System · Control de Inventario & Salidas</small>
+        <footer className="bg-dark text-white-50 text-center py-3 mt-5">
+          <small>Tienda Online · Los mejores videojuegos al mejor precio</small>
         </footer>
       )}
     </div>
