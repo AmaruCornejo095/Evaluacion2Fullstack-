@@ -1,4 +1,4 @@
-const PRODUCTOS_KEY = 'logistock_productos_v2';
+const PRODUCTOS_KEY = 'logistock_productos_v3';
 
 export const productosIniciales = [
   {
@@ -11,18 +11,18 @@ export const productosIniciales = [
     stock: 45,
     enOferta: true,
     precioOferta: 399990,
-    imagen: 'https://via.placeholder.com/400x300?text=Notebook+HP'
+    imagen: 'https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&w=600&q=80'
   },
   {
     id: 2,
-    nombre: 'Monitor Samsung 24',
+    nombre: 'Monitor Samsung 24"',
     precio: 180000,
     categoria: 'Electrónica',
     cliente: 'TechStore',
     ubicacion: 'Estante A-4',
     stock: 30,
     enOferta: false,
-    imagen: 'https://via.placeholder.com/400x300?text=Monitor+Samsung'
+    imagen: 'https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?auto=format&fit=crop&w=600&q=80'
   },
   {
     id: 3,
@@ -34,7 +34,7 @@ export const productosIniciales = [
     stock: 120,
     enOferta: true,
     precioOferta: 54990,
-    imagen: 'https://via.placeholder.com/400x300?text=Nike+Air'
+    imagen: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=600&q=80'
   },
   {
     id: 4,
@@ -45,7 +45,7 @@ export const productosIniciales = [
     ubicacion: 'Estante B-2',
     stock: 80,
     enOferta: false,
-    imagen: 'https://via.placeholder.com/400x300?text=Chaqueta+North+Face'
+    imagen: 'https://images.unsplash.com/photo-1544441893-675973e31985?auto=format&fit=crop&w=600&q=80'
   },
   {
     id: 5,
@@ -57,7 +57,7 @@ export const productosIniciales = [
     stock: 500,
     enOferta: true,
     precioOferta: 1990,
-    imagen: 'https://via.placeholder.com/400x300?text=Arroz+1kg'
+    imagen: 'https://images.unsplash.com/photo-1586201375761-83865001e31c?auto=format&fit=crop&w=600&q=80'
   },
   {
     id: 6,
@@ -68,13 +68,12 @@ export const productosIniciales = [
     ubicacion: 'Pallet 6',
     stock: 350,
     enOferta: false,
-    imagen: 'https://via.placeholder.com/400x300?text=Aceite+1L'
+    imagen: 'https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?auto=format&fit=crop&w=600&q=80'
   }
 ];
 
 export const categoriasList = ['Todas', 'Electrónica', 'Calzado', 'Vestuario', 'Alimentos'];
 
-// Funciones CRUD
 export const obtenerProductos = () => {
   const data = localStorage.getItem(PRODUCTOS_KEY);
   if (!data) {

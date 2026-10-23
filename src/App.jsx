@@ -41,7 +41,12 @@ function App() {
     });
   };
 
-  const totalCarrito = carrito.reduce((acc, item) => acc + item.precio * item.cantidad, 0);
+  // Cálculo de total considerando si el producto está en oferta
+  const totalCarrito = carrito.reduce((acc, item) => {
+    const precioUnitario = item.enOferta ? item.precioOferta : item.precio;
+    return acc + (precioUnitario * item.cantidad);
+  }, 0);
+
   const cantidadItems = carrito.reduce((acc, item) => acc + item.cantidad, 0);
 
   const procesarPago = (cliente, simularExito = true) => {
@@ -90,8 +95,8 @@ function App() {
       </main>
 
       {!esAdmin && (
-        <footer className="bg-dark text-white-50 text-center py-3 mt-5">
-          <small>Tienda Online · Los mejores videojuegos al mejor precio</small>
+        <footer className="bg-dark text-white-50 text-center py-3 mt-5 border-top border-secondary">
+          <small>LogiStock Management System · Control de Inventario & Salidas</small>
         </footer>
       )}
     </div>

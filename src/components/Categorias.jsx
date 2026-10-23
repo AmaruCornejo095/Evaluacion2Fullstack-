@@ -20,13 +20,14 @@ export const Categorias = ({ agregarAlCarrito }) => {
 
   return (
     <div className="container my-4">
-      <h2 className="mb-4 text-center">Categorías</h2>
+      <h2 className="mb-4 text-center fw-bold text-dark">Categorías</h2>
 
+      {/* Botones de Filtro */}
       <div className="row justify-content-center mb-4">
         {categoriasList.map((cat, idx) => (
           <div key={idx} className="col-auto mb-2">
             <button
-              className={`btn ${categoriaSeleccionada === cat ? 'btn-primary' : 'btn-outline-secondary'}`}
+              className={`btn ${categoriaSeleccionada === cat ? 'btn-dark' : 'btn-outline-secondary'} rounded-pill px-4`}
               onClick={() => seleccionarCategoria(cat)}
             >
               {cat}
@@ -35,13 +36,23 @@ export const Categorias = ({ agregarAlCarrito }) => {
         ))}
       </div>
 
-      <h3 className="mb-3">{categoriaSeleccionada}</h3>
+      <h3 className="mb-4 fw-semibold border-bottom pb-2">{categoriaSeleccionada}</h3>
+      
+      {/* Grilla de Productos sin envoltorios col duplicados */}
       <div className="row g-4">
-        {productosFiltrados.map((item) => (
-          <div key={item.id} className="col-12 col-sm-6 col-md-4 col-lg-3">
-            <ProductoCard producto={item} agregarAlCarrito={agregarAlCarrito} />
+        {productosFiltrados.length > 0 ? (
+          productosFiltrados.map((item) => (
+            <ProductoCard 
+              key={item.id} 
+              producto={item} 
+              agregarAlCarrito={agregarAlCarrito} 
+            />
+          ))
+        ) : (
+          <div className="col-12 text-center py-5">
+            <p className="text-muted fs-5">No hay productos disponibles en esta categoría.</p>
           </div>
-        ))}
+        )}
       </div>
     </div>
   );

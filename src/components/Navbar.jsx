@@ -1,48 +1,30 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
-export const Navbar = ({ totalCarrito, cantidadItems, setVistaActual, vistaActual }) => {
+export const Navbar = ({ totalItems = 0, totalMonto = 0 }) => {
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark bg-dark mb-4 px-3 shadow">
+    <nav className="navbar navbar-expand-lg navbar-dark bg-dark px-3 py-2 shadow-sm">
       <div className="container-fluid">
-        <a 
-          className="navbar-brand fw-bold fs-4 d-flex align-items-center gap-2" 
-          href="#" 
-          onClick={(e) => { e.preventDefault(); setVistaActual('home'); }}
-        >
+        <Link className="navbar-brand fw-bold text-white fs-4" to="/">
           📦 LogiStock
-        </a>
+        </Link>
 
         <div className="d-flex align-items-center gap-2 ms-auto">
-          <button 
-            className={`btn ${vistaActual === 'home' ? 'btn-primary' : 'btn-outline-light'}`}
-            onClick={() => setVistaActual('home')}
-          >
+          <Link to="/" className="btn btn-outline-light btn-sm px-3">
             Inicio
-          </button>
-          <button 
-            className={`btn ${vistaActual === 'categorias' ? 'btn-primary' : 'btn-outline-light'}`}
-            onClick={() => setVistaActual('categorias')}
-          >
+          </Link>
+          <Link to="/categorias" className="btn btn-outline-light btn-sm px-3">
             Categorías
-          </button>
-          <button 
-            className={`btn ${vistaActual === 'ofertas' ? 'btn-warning text-dark fw-bold' : 'btn-outline-warning'}`}
-            onClick={() => setVistaActual('ofertas')}
-          >
+          </Link>
+          <Link to="/ofertas" className="btn btn-outline-warning btn-sm px-3 fw-bold">
             Ofertas 🔥
-          </button>
-          <button 
-            className={`btn ${vistaActual === 'admin' ? 'btn-info text-white' : 'btn-outline-info'}`}
-            onClick={() => setVistaActual('admin')}
-          >
+          </Link>
+          <Link to="/admin" className="btn btn-outline-info btn-sm px-3">
             ⚙️ Admin
-          </button>
-          <button 
-            className="btn btn-success fw-bold"
-            onClick={() => setVistaActual('carrito')}
-          >
-            🛒 Salidas ({cantidadItems}) - ${totalCarrito.toLocaleString('es-CL')}
-          </button>
+          </Link>
+          <Link to="/checkout" className="btn btn-success btn-sm px-3 fw-bold">
+            🛒 Salidas ({totalItems}) - ${totalMonto.toLocaleString('es-CL')}
+          </Link>
         </div>
       </div>
     </nav>
