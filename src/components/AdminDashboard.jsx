@@ -1,17 +1,32 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { obtenerProductos, eliminarProducto, categoriasList } from '../data/productos';
+import { AvisoFlotante } from './AvisoFlotante';
+import { ConfirmacionFlotante } from './ConfirmacionFlotante';
 
 export const AdminDashboard = () => {
   const [seccionActiva, setSeccionActiva] = useState('dashboard');
   const [productos, setProductos] = useState(() => obtenerProductos());
+  const [productoAEliminar, setProductoAEliminar] = useState(null);
+  const [aviso, setAviso] = useState(null);
   const navigate = useNavigate();
 
   const handleEliminarProducto = (id) => {
-    if (window.confirm('¿Deseas eliminar este producto del inventario?')) {
-      const actualizados = eliminarProducto(id);
-      setProductos(actualizados);
-    }
+    const producto = productos.find(p => p.id === id);
+    setProductoAEliminar(producto || { id });
+  };
+
+  const confirmarEliminacion = () => {
+    if (!productoAEliminar) return;
+
+    const actualizados = eliminarProducto(productoAEliminar.id);
+    setProductos(actualizados);
+    setAviso({
+      tipo: 'success',
+      titulo: 'Producto eliminado',
+      mensaje: `${productoAEliminar.nombre || 'El producto'} se quitó del inventario.`
+    });
+    setProductoAEliminar(null);
   };
 
   const totalUnidades = productos.reduce((acc, p) => acc + (p.stock || 0), 0);
@@ -444,6 +459,21 @@ export const AdminDashboard = () => {
           )}
         </div>
       </div>
+
+      <ConfirmacionFlotante
+        mensaje={productoAEliminar ? `¿Deseas eliminar "${productoAEliminar.nombre || 'este producto'}" del inventario?` : null}
+        titulo="Eliminar producto"
+        textoConfirmar="Eliminar"
+        onConfirmar={confirmarEliminacion}
+        onCancelar={() => setProductoAEliminar(null)}
+      />
+
+      <AvisoFlotante
+        mensaje={aviso?.mensaje}
+        titulo={aviso?.titulo}
+        tipo={aviso?.tipo}
+        onClose={() => setAviso(null)}
+      />
     </div>
   );
 };

@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { AvisoFlotante } from './AvisoFlotante';
 
 export const Carrito = ({ carrito, setCarrito, procesarPago }) => {
+  const [aviso, setAviso] = useState(null);
   const [datosCliente, setDatosCliente] = useState({
     nombre: '',
     apellidos: '',
@@ -26,7 +28,11 @@ export const Carrito = ({ carrito, setCarrito, procesarPago }) => {
   const handlePagar = (e) => {
     e.preventDefault();
     if (carrito.length === 0) {
-      alert('El carrito está vacío.');
+      setAviso({
+        tipo: 'warning',
+        titulo: 'Carrito vacío',
+        mensaje: 'Agrega productos al carrito antes de pagar.'
+      });
       return;
     }
     procesarPago(datosCliente, true);
@@ -173,6 +179,13 @@ export const Carrito = ({ carrito, setCarrito, procesarPago }) => {
           </div>
         </div>
       )}
+
+      <AvisoFlotante
+        mensaje={aviso?.mensaje}
+        titulo={aviso?.titulo}
+        tipo={aviso?.tipo}
+        onClose={() => setAviso(null)}
+      />
     </div>
   );
 };

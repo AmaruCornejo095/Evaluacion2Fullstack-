@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, Navigate } from 'react-router-dom';
+import { AvisoFlotante } from './AvisoFlotante';
 
 export const CompraExitosa = ({ ordenData }) => {
+  const [aviso, setAviso] = useState(null);
+
   if (!ordenData) {
     return <Navigate to="/" replace />;
   }
@@ -118,7 +121,16 @@ export const CompraExitosa = ({ ordenData }) => {
               <button className="btn btn-dark fw-semibold px-4" onClick={handlePrint}>
                 🖨️ Imprimir boleta en PDF
               </button>
-              <button className="btn btn-success fw-semibold px-4" onClick={() => alert(`Boleta enviada al correo ${cliente.correo}`)}>
+              <button
+                className="btn btn-success fw-semibold px-4"
+                onClick={() =>
+                  setAviso({
+                    tipo: 'success',
+                    titulo: 'Boleta enviada',
+                    mensaje: `Se envió la boleta al correo ${cliente.correo}`
+                  })
+                }
+              >
                 ✉️ Enviar boleta por email
               </button>
               <Link to="/categorias" className="btn btn-dark fw-semibold px-4">
@@ -128,6 +140,13 @@ export const CompraExitosa = ({ ordenData }) => {
           </div>
         </div>
       </div>
+
+      <AvisoFlotante
+        mensaje={aviso?.mensaje}
+        titulo={aviso?.titulo}
+        tipo={aviso?.tipo}
+        onClose={() => setAviso(null)}
+      />
     </div>
   );
 };
