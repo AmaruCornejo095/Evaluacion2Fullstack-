@@ -1,43 +1,50 @@
 import React from 'react';
 
-export const ProductoCard = ({ producto, agregarAlCarrito, modo = 'normal' }) => {
-  const esOferta = modo === 'oferta';
-
+export const ProductoCard = ({ producto, agregarAlCarrito }) => {
   return (
-    <div className={`card h-100 shadow-sm ${esOferta ? 'border-warning' : ''}`}>
-      <img src={producto.imagen} className="card-img-top" alt={producto.nombre} />
-      <div className="card-body d-flex flex-column">
-        <h5 className="card-title">{producto.nombre}</h5>
-        <p className="card-text text-muted">{producto.categoria}</p>
-        {esOferta ? (
-          <>
-            <div className="mb-2">
-              <span className="text-decoration-line-through text-muted me-2">
-                ${producto.precio.toLocaleString('es-CL')}
-              </span>
-              <span className="fw-bold text-danger fs-5">
-                ${producto.precioOferta.toLocaleString('es-CL')}
-              </span>
+    <div className="col-12 col-sm-6 col-md-4 col-lg-3">
+      <div className="card h-100 shadow-sm border-0">
+        <img 
+          src={producto.imagen} 
+          className="card-img-top bg-light" 
+          alt={producto.nombre} 
+          style={{ height: '180px', objectFit: 'contain' }}
+        />
+        <div className="card-body d-flex flex-column">
+          <span className="badge bg-secondary mb-2 w-auto me-auto">{producto.cliente}</span>
+          <h5 className="card-title fs-6 fw-bold">{producto.nombre}</h5>
+          <p className="card-text text-muted small mb-1">
+            Categoría: {producto.categoria}<br />
+            <strong>Ubicación:</strong> {producto.ubicacion}
+          </p>
+          <p className="small text-primary fw-bold mb-2">Stock: {producto.stock} uds.</p>
+          
+          <div className="mt-auto d-flex justify-content-between align-items-center pt-2 border-top">
+            <div>
+              {producto.enOferta ? (
+                <>
+                  <span className="text-decoration-line-through text-muted small me-1">
+                    ${producto.precio.toLocaleString('es-CL')}
+                  </span>
+                  <span className="fw-bold text-danger">
+                    ${producto.precioOferta.toLocaleString('es-CL')}
+                  </span>
+                </>
+              ) : (
+                <span className="fw-bold text-success">
+                  ${producto.precio.toLocaleString('es-CL')}
+                </span>
+              )}
             </div>
-            <button
-              className="btn btn-warning mt-auto"
-              onClick={() => agregarAlCarrito && agregarAlCarrito({ ...producto, precio: producto.precioOferta })}
-            >
-              Añadir Oferta
-            </button>
-          </>
-        ) : (
-          <div className="mt-auto d-flex justify-content-between align-items-center">
-            <span className="fw-bold text-success">${producto.precio.toLocaleString('es-CL')}</span>
-            <button
+            <button 
               className="btn btn-sm btn-dark"
-              onClick={() => agregarAlCarrito && agregarAlCarrito(producto)}
+              onClick={() => agregarAlCarrito(producto)}
             >
               Añadir
             </button>
           </div>
-        )}
+        </div>
       </div>
     </div>
   );
-};
+};  
