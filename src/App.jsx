@@ -30,6 +30,13 @@ function App() {
   const esAdmin = pathname.startsWith('/admin');
 
   const agregarAlCarrito = (producto) => {
+    // Se guarda el precio efectivo (oferta si corresponde) para que el
+    // carrito, la boleta y el total siempre coincidan.
+    const precioEfectivo =
+      producto.enOferta && producto.precioOferta != null
+        ? producto.precioOferta
+        : producto.precio;
+
     setCarrito(prev => {
       const existe = prev.find(item => item.id === producto.id);
       if (existe) {
@@ -37,15 +44,11 @@ function App() {
           item.id === producto.id ? { ...item, cantidad: item.cantidad + 1 } : item
         );
       }
-      return [...prev, { ...producto, cantidad: 1 }];
+      return [...prev, { ...producto, precio: precioEfectivo, cantidad: 1 }];
     });
   };
 
-  // Cálculo de total considerando si el producto está en oferta
-  const totalCarrito = carrito.reduce((acc, item) => {
-    const precioUnitario = item.enOferta ? item.precioOferta : item.precio;
-    return acc + (precioUnitario * item.cantidad);
-  }, 0);
+  const totalCarrito = carrito.reduce((acc, item) => acc + item.precio * item.cantidad, 0);
 
   const cantidadItems = carrito.reduce((acc, item) => acc + item.cantidad, 0);
 
@@ -96,7 +99,7 @@ function App() {
 
       {!esAdmin && (
         <footer className="bg-dark text-white-50 text-center py-3 mt-5">
-          <small>Tienda Online · Los mejores videojuegos al mejor precio</small>
+          <small>LogiStock · Retail y tecnología con inventario en tiempo real</small>
         </footer>
       )}
     </div>
