@@ -1,13 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { obtenerProductos, categoriasList } from '../data/productos';
+import { ProductoCard } from './ProductoCard';
 
 export const Categorias = ({ agregarAlCarrito }) => {
-  const [categoriaSeleccionada, setCategoriaSeleccionada] = useState('Todas');
-  const [productos, setProductos] = useState([]);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [productos] = useState(() => obtenerProductos());
 
-  useEffect(() => {
-    setProductos(obtenerProductos());
-  }, []);
+  const categoriaParam = searchParams.get('cat');
+  const categoriaSeleccionada = categoriasList.includes(categoriaParam) ? categoriaParam : 'Todas';
+
+  const seleccionarCategoria = (cat) => {
+    setSearchParams(cat === 'Todas' ? {} : { cat });
+  };
 
   const productosFiltrados = categoriaSeleccionada === 'Todas'
     ? productos
@@ -22,7 +27,7 @@ export const Categorias = ({ agregarAlCarrito }) => {
           <div key={idx} className="col-auto mb-2">
             <button
               className={`btn ${categoriaSeleccionada === cat ? 'btn-primary' : 'btn-outline-secondary'}`}
-              onClick={() => setCategoriaSeleccionada(cat)}
+              onClick={() => seleccionarCategoria(cat)}
             >
               {cat}
             </button>
@@ -34,22 +39,7 @@ export const Categorias = ({ agregarAlCarrito }) => {
       <div className="row g-4">
         {productosFiltrados.map((item) => (
           <div key={item.id} className="col-12 col-sm-6 col-md-4 col-lg-3">
-            <div className="card h-100 shadow-sm">
-              <img src={item.imagen} className="card-img-top" alt={item.nombre} />
-              <div className="card-body d-flex flex-column">
-                <h5 className="card-title">{item.nombre}</h5>
-                <p className="card-text text-muted">{item.categoria}</p>
-                <div className="mt-auto d-flex justify-content-between align-items-center">
-                  <span className="fw-bold text-success">${item.precio.toLocaleString('es-CL')}</span>
-                  <button 
-                    className="btn btn-sm btn-dark"
-                    onClick={() => agregarAlCarrito && agregarAlCarrito(item)}
-                  >
-                    Añadir
-                  </button>
-                </div>
-              </div>
-            </div>
+            <ProductoCard producto={item} agregarAlCarrito={agregarAlCarrito} />
           </div>
         ))}
       </div>

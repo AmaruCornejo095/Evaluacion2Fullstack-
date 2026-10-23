@@ -1,7 +1,8 @@
 import React from 'react';
+import { Link, Navigate } from 'react-router-dom';
 
-export const PagoResultado = ({ exito, datosOrden, setVistaActual }) => {
-  if (!datosOrden) return null;
+export const PagoResultado = ({ exito, datosOrden }) => {
+  if (!datosOrden) return <Navigate to="/" replace />;
 
   const { ordenId, cliente, productos, total } = datosOrden;
 
@@ -33,21 +34,21 @@ export const PagoResultado = ({ exito, datosOrden, setVistaActual }) => {
               <h5 className="text-end">Total Pagado: ${total.toLocaleString('es-CL')}</h5>
             </div>
           </div>
-          <button className="btn btn-primary mt-3 w-100" onClick={() => setVistaActual('categorias')}>
+          <Link to="/categorias" className="btn btn-primary mt-3 w-100">
             Volver a la Tienda
-          </button>
+          </Link>
         </div>
       ) : (
         <div className="card border-danger p-4 shadow-sm text-center">
           <h3 className="text-danger">❌ No se pudo realizar el pago</h3>
           <p>Nro de Orden Intentado: #{ordenId}</p>
           <div className="d-flex justify-content-center gap-3 mt-3">
-            <button className="btn btn-warning" onClick={() => setVistaActual('carrito')}>
+            <Link to="/carrito" className="btn btn-warning">
               Volver a Intentar el Pago
-            </button>
-            <button className="btn btn-secondary" onClick={() => setVistaActual('categorias')}>
+            </Link>
+            <Link to="/categorias" className="btn btn-secondary">
               Ir a Categorías
-            </button>
+            </Link>
           </div>
         </div>
       )}
