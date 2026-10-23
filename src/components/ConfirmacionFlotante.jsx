@@ -31,7 +31,7 @@ export const ConfirmacionFlotante = ({
             <button
               type="button"
               className="btn-close"
-              aria-label="Cancelar"
+              aria-label="Cerrar confirmación"
               onClick={onCancelar}
             />
           </div>
