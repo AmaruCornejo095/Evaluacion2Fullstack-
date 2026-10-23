@@ -1,10 +1,15 @@
 import React, { useState } from 'react';
 
-export const Carrito = ({ carrito, setCarrito, setVistaActual }) => {
-  const [datosCliente, setDatosCliente] = useState({
+export const Carrito = ({ carrito, setCarrito, finalizarCompra }) => {
+  const [cliente, setCliente] = useState({
     nombre: '',
+    apellidos: '',
     correo: '',
-    direccion: ''
+    calle: '',
+    departamento: '',
+    region: 'Región Metropolitana de Santiago',
+    comuna: 'Cerrillos',
+    indicaciones: ''
   });
 
   const total = carrito.reduce((acc, item) => acc + item.precio * item.cantidad, 0);
@@ -15,21 +20,27 @@ export const Carrito = ({ carrito, setCarrito, setVistaActual }) => {
 
   const handlePagar = (e) => {
     e.preventDefault();
-    if (carrito.length === 0) return alert('El carrito está vacío');
-    alert('¡Pago realizado con éxito! Código de orden: #' + Math.floor(Math.random() * 899999 + 100000));
-    setCarrito([]);
-    setVistaActual('categorias');
+    if (carrito.length === 0) return alert('El carrito está vacío.');
+    
+    // Generar orden y llamar a la función de finalización sin usar alert() emergente
+    const nuevaOrden = {
+      ordenId: Math.floor(100000 + Math.random() * 900000).toString(),
+      cliente,
+      productos: [...carrito],
+      total
+    };
+    
+    finalizarCompra(nuevaOrden);
   };
 
   return (
     <div className="container my-4">
-      <h2 className="mb-4">Carrito de Compras</h2>
+      <h2 className="mb-4 fw-bold">Carrito de Compras</h2>
       
       {carrito.length === 0 ? (
-        <div className="alert alert-info">El carrito está vacío.</div>
+        <div className="alert alert-info">El carrito de compras está vacío.</div>
       ) : (
         <div className="row g-4">
-          {/* Tabla de Productos */}
           <div className="col-12 col-lg-7">
             <table className="table align-middle">
               <thead>
@@ -57,42 +68,27 @@ export const Carrito = ({ carrito, setCarrito, setVistaActual }) => {
                 ))}
               </tbody>
             </table>
-            <h4>Total: ${total.toLocaleString('es-CL')}</h4>
+            <h4 className="fw-bold mt-3">Total: ${total.toLocaleString('es-CL')}</h4>
           </div>
 
-          {/* Formulario Checkout */}
           <div className="col-12 col-lg-5">
-            <div className="card p-3 shadow-sm">
-              <h5>Información del cliente</h5>
+            <div className="card p-4 shadow-sm border-0 rounded-3">
+              <h5 className="fw-bold mb-3">Información del cliente</h5>
               <form onSubmit={handlePagar}>
-                <div className="mb-3">
-                  <label className="form-label">Nombre Completo</label>
-                  <input 
-                    type="text" 
-                    className="form-control" 
-                    required 
-                    onChange={(e) => setDatosCliente({...datosCliente, nombre: e.target.value})}
-                  />
+                <div className="mb-2">
+                  <label className="form-label small">Nombre Completo</label>
+                  <input type="text" className="form-control" required value={cliente.nombre} onChange={(e) => setCliente({...cliente, nombre: e.target.value})} />
+                </div>
+                <div className="mb-2">
+                  <label className="form-label small">Correo Electrónico</label>
+                  <input type="email" className="form-control" required value={cliente.correo} onChange={(e) => setCliente({...cliente, correo: e.target.value})} />
                 </div>
                 <div className="mb-3">
-                  <label className="form-label">Correo Electrónico</label>
-                  <input 
-                    type="email" 
-                    className="form-control" 
-                    required 
-                    onChange={(e) => setDatosCliente({...datosCliente, correo: e.target.value})}
-                  />
+                  <label className="form-label small">Dirección de Envío</label>
+                  <input type="text" className="form-control" required value={cliente.calle} onChange={(e) => setCliente({...cliente, calle: e.target.value})} />
                 </div>
-                <div className="mb-3">
-                  <label className="form-label">Dirección de Envío</label>
-                  <input 
-                    type="text" 
-                    className="form-control" 
-                    required 
-                    onChange={(e) => setDatosCliente({...datosCliente, direccion: e.target.value})}
-                  />
-                </div>
-                <button type="submit" className="btn btn-success w-100">
+
+                <button type="submit" className="btn btn-success w-100 py-2 fw-bold">
                   Pagar ahora ${total.toLocaleString('es-CL')}
                 </button>
               </form>

@@ -21,6 +21,12 @@ export const Navbar = ({ totalCarrito, cantidadItems, setVistaActual, vistaActua
             Ofertas 🔥
           </button>
           <button 
+            className={`btn ${vistaActual === 'admin' ? 'btn-info' : 'btn-outline-info'}`}
+            onClick={() => setVistaActual('admin')}
+          >
+            ⚙️ Admin
+          </button>
+          <button 
             className="btn btn-success"
             onClick={() => setVistaActual('carrito')}
           >

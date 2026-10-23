@@ -4,13 +4,13 @@ import { Navbar } from './components/Navbar';
 import { Categorias } from './components/Categorias';
 import { Ofertas } from './components/Ofertas';
 import { Carrito } from './components/Carrito';
-import { PagoResultado } from './components/PagoResultado';
+import { CompraExitosa } from './components/CompraExitosa';
+import { AdminDashboard } from './components/AdminDashboard';
 
 function App() {
   const [vistaActual, setVistaActual] = useState('categorias');
   const [carrito, setCarrito] = useState([]);
-  const [datosOrden, setDatosOrden] = useState(null);
-  const [pagoExitoso, setPagoExitoso] = useState(true);
+  const [ordenData, setOrdenData] = useState(null);
 
   const agregarAlCarrito = (producto) => {
     const existe = carrito.find(item => item.id === producto.id);
@@ -23,32 +23,25 @@ function App() {
     }
   };
 
+  const finalizarCompra = (nuevaOrden) => {
+    setOrdenData(nuevaOrden);
+    setCarrito([]); // Limpiar carrito
+    setVistaActual('compra_exitosa'); // Cambiar a la vista producida
+  };
+
   const totalCarrito = carrito.reduce((acc, item) => acc + item.precio * item.cantidad, 0);
   const cantidadItems = carrito.reduce((acc, item) => acc + item.cantidad, 0);
 
-  const procesarPago = (cliente, simularExito) => {
-    const orden = {
-      ordenId: '20240705',
-      cliente,
-      productos: [...carrito],
-      total: totalCarrito
-    };
-    setDatosOrden(orden);
-    setPagoExitoso(simularExito);
-    if (simularExito) {
-      setCarrito([]);
-    }
-    setVistaActual('pago_resultado');
-  };
-
   return (
     <div>
-      <Navbar 
-        totalCarrito={totalCarrito} 
-        cantidadItems={cantidadItems} 
-        setVistaActual={setVistaActual}
-        vistaActual={vistaActual}
-      />
+      {vistaActual !== 'admin' && (
+        <Navbar 
+          totalCarrito={totalCarrito} 
+          cantidadItems={cantidadItems} 
+          setVistaActual={setVistaActual}
+          vistaActual={vistaActual}
+        />
+      )}
       
       <main>
         {vistaActual === 'categorias' && <Categorias agregarAlCarrito={agregarAlCarrito} />}
@@ -57,13 +50,17 @@ function App() {
           <Carrito 
             carrito={carrito} 
             setCarrito={setCarrito} 
-            procesarPago={procesarPago} 
+            finalizarCompra={finalizarCompra} 
           />
         )}
-        {vistaActual === 'pago_resultado' && (
-          <PagoResultado 
-            exito={pagoExitoso} 
-            datosOrden={datosOrden} 
+        {vistaActual === 'compra_exitosa' && (
+          <CompraExitosa 
+            ordenData={ordenData} 
+            setVistaActual={setVistaActual} 
+          />
+        )}
+        {vistaActual === 'admin' && (
+          <AdminDashboard 
             setVistaActual={setVistaActual} 
           />
         )}
