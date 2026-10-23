@@ -1,9 +1,13 @@
-import React, { useState } from 'react';
-import { productosIniciales, categoriasList } from '../data/productos';
+import React, { useState, useEffect } from 'react';
+import { obtenerProductos, categoriasList } from '../data/productos';
 
-export const Categorias = () => {
+export const Categorias = ({ agregarAlCarrito }) => {
   const [categoriaSeleccionada, setCategoriaSeleccionada] = useState('Todas');
-  const [productos] = useState(productosIniciales);
+  const [productos, setProductos] = useState([]);
+
+  useEffect(() => {
+    setProductos(obtenerProductos());
+  }, []);
 
   const productosFiltrados = categoriaSeleccionada === 'Todas'
     ? productos
@@ -12,21 +16,21 @@ export const Categorias = () => {
   return (
     <div className="container my-4">
       <h2 className="mb-4 text-center">Categorías</h2>
-      
-      {/* Botones de Categorías */}
-      <div className="d-flex justify-content-center gap-2 mb-4 flex-wrap">
-        {categoriasList.map((cat, index) => (
-          <button
-            key={index}
-            className={`btn ${categoriaSeleccionada === cat ? 'btn-primary' : 'btn-outline-primary'}`}
-            onClick={() => setCategoriaSeleccionada(cat)}
-          >
-            {cat}
-          </button>
+
+      <div className="row justify-content-center mb-4">
+        {categoriasList.map((cat, idx) => (
+          <div key={idx} className="col-auto mb-2">
+            <button
+              className={`btn ${categoriaSeleccionada === cat ? 'btn-primary' : 'btn-outline-secondary'}`}
+              onClick={() => setCategoriaSeleccionada(cat)}
+            >
+              {cat}
+            </button>
+          </div>
         ))}
       </div>
 
-      {/* Grid de Productos Responsivo con Bootstrap */}
+      <h3 className="mb-3">{categoriaSeleccionada}</h3>
       <div className="row g-4">
         {productosFiltrados.map((item) => (
           <div key={item.id} className="col-12 col-sm-6 col-md-4 col-lg-3">
@@ -36,8 +40,13 @@ export const Categorias = () => {
                 <h5 className="card-title">{item.nombre}</h5>
                 <p className="card-text text-muted">{item.categoria}</p>
                 <div className="mt-auto d-flex justify-content-between align-items-center">
-                  <span className="fw-bold text-success">${item.precio.toLocaleString()}</span>
-                  <button className="btn btn-sm btn-outline-success">Añadir</button>
+                  <span className="fw-bold text-success">${item.precio.toLocaleString('es-CL')}</span>
+                  <button 
+                    className="btn btn-sm btn-dark"
+                    onClick={() => agregarAlCarrito && agregarAlCarrito(item)}
+                  >
+                    Añadir
+                  </button>
                 </div>
               </div>
             </div>
