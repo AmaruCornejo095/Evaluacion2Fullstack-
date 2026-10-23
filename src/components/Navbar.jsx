@@ -27,23 +27,16 @@ export const Navbar = ({ totalCarrito, cantidadItems }) => {
             className={({ isActive }) => `btn ${isActive ? 'btn-warning' : 'btn-outline-warning'}`}
           >
             Ofertas 🔥
-<<<<<<< HEAD
-          </button>
-          <button 
-            className={`btn ${vistaActual === 'admin' ? 'btn-info' : 'btn-outline-info'}`}
-            onClick={() => setVistaActual('admin')}
+          </NavLink>
+          <NavLink
+            to="/admin"
+            className={({ isActive }) => `btn ${isActive ? 'btn-info' : 'btn-outline-info'}`}
           >
             ⚙️ Admin
-          </button>
-          <button 
-            className="btn btn-success"
-            onClick={() => setVistaActual('carrito')}
-=======
           </NavLink>
           <NavLink
             to="/carrito"
             className={({ isActive }) => `btn ${isActive ? 'btn-success' : 'btn-outline-success'}`}
->>>>>>> 3b44f98ce5c6f5ea3f2302eecd07c2b1e8bf45d3
           >
             🛒 Carrito ({cantidadItems}) - ${totalCarrito.toLocaleString('es-CL')}
           </NavLink>

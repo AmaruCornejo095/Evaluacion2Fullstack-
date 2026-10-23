@@ -1,13 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { obtenerProductos, eliminarProducto } from '../data/productos';
 
-export const AdminDashboard = ({ setVistaActual }) => {
+export const AdminDashboard = () => {
   const [seccionActiva, setSeccionActiva] = useState('dashboard');
-  const [productos, setProductos] = useState([]);
-
-  useEffect(() => {
-    setProductos(obtenerProductos());
-  }, []);
+  const [productos, setProductos] = useState(() => obtenerProductos());
+  const navigate = useNavigate();
 
   const handleEliminarProducto = (id) => {
     if (window.confirm('¿Deseas eliminar este producto del inventario?')) {
@@ -51,10 +49,10 @@ export const AdminDashboard = ({ setVistaActual }) => {
             </ul>
           </div>
           <div className="d-grid gap-2 mt-4">
-            <button className="btn btn-secondary" onClick={() => setVistaActual('categorias')}>
+            <button className="btn btn-secondary" onClick={() => navigate('/categorias')}>
               🏬 Tienda
             </button>
-            <button className="btn btn-danger" onClick={() => setVistaActual('categorias')}>
+            <button className="btn btn-danger" onClick={() => navigate('/')}>
               Cerrar Sesión
             </button>
           </div>
@@ -118,7 +116,7 @@ export const AdminDashboard = ({ setVistaActual }) => {
                     <div
                       className="card h-100 text-center p-3 shadow-sm border-0"
                       style={{ cursor: 'pointer' }}
-                      onClick={() => mod.key === 'tienda' ? setVistaActual('categorias') : setSeccionActiva(mod.key)}
+                      onClick={() => mod.key === 'tienda' ? navigate('/categorias') : setSeccionActiva(mod.key)}
                     >
                       <div className="fs-2 mb-2">{mod.icono}</div>
                       <h6 className="fw-bold">{mod.label}</h6>

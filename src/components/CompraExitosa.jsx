@@ -1,18 +1,12 @@
 import React from 'react';
+import { Link, Navigate } from 'react-router-dom';
 
-export const CompraExitosa = ({ ordenData, setVistaActual }) => {
+export const CompraExitosa = ({ ordenData }) => {
   if (!ordenData) {
-    return (
-      <div className="container text-center my-5 py-5">
-        <h4>No hay información de orden registrada.</h4>
-        <button className="btn btn-primary mt-3" onClick={() => setVistaActual('categorias')}>
-          Volver a la Tienda
-        </button>
-      </div>
-    );
+    return <Navigate to="/" replace />;
   }
 
-  const { cliente, productos, total, ordenId = '20240705' } = ordenData;
+  const { cliente = {}, productos = [], total = 0, ordenId = '—' } = ordenData;
 
   const handlePrint = () => {
     window.print();
@@ -45,15 +39,15 @@ export const CompraExitosa = ({ ordenData, setVistaActual }) => {
             <div className="row g-3 mb-4">
               <div className="col-12 col-md-4">
                 <label className="form-label text-muted small mb-1">Nombre*</label>
-                <input type="text" className="form-control bg-light border-0" value={cliente.nombre || 'Pedro'} readOnly />
+                <input type="text" className="form-control bg-light border-0" value={cliente.nombre || ''} readOnly />
               </div>
               <div className="col-12 col-md-4">
                 <label className="form-label text-muted small mb-1">Apellidos*</label>
-                <input type="text" className="form-control bg-light border-0" value={cliente.apellidos || 'Hacker'} readOnly />
+                <input type="text" className="form-control bg-light border-0" value={cliente.apellidos || ''} readOnly />
               </div>
               <div className="col-12 col-md-4">
                 <label className="form-label text-muted small mb-1">Correo*</label>
-                <input type="email" className="form-control bg-light border-0" value={cliente.correo || 'pedro.hacker20@example.com'} readOnly />
+                <input type="email" className="form-control bg-light border-0" value={cliente.correo || ''} readOnly />
               </div>
 
               <div className="col-12">
@@ -62,25 +56,25 @@ export const CompraExitosa = ({ ordenData, setVistaActual }) => {
 
               <div className="col-12 col-md-8">
                 <label className="form-label text-muted small mb-1">Calle*</label>
-                <input type="text" className="form-control bg-light border-0" value={cliente.calle || 'Los Crisantemos, Edificio Norte'} readOnly />
+                <input type="text" className="form-control bg-light border-0" value={cliente.calle || ''} readOnly />
               </div>
               <div className="col-12 col-md-4">
                 <label className="form-label text-muted small mb-1">Departamento (opcional)</label>
-                <input type="text" className="form-control bg-light border-0" value={cliente.departamento || 'Depto 603'} readOnly />
+                <input type="text" className="form-control bg-light border-0" value={cliente.departamento || ''} readOnly />
               </div>
 
               <div className="col-12 col-md-6">
                 <label className="form-label text-muted small mb-1">Región*</label>
-                <input type="text" className="form-control bg-light border-0" value={cliente.region || 'Región Metropolitana de Santiago'} readOnly />
+                <input type="text" className="form-control bg-light border-0" value={cliente.region || ''} readOnly />
               </div>
               <div className="col-12 col-md-6">
                 <label className="form-label text-muted small mb-1">Comuna*</label>
-                <input type="text" className="form-control bg-light border-0" value={cliente.comuna || 'Cerrillos'} readOnly />
+                <input type="text" className="form-control bg-light border-0" value={cliente.comuna || ''} readOnly />
               </div>
 
               <div className="col-12">
                 <label className="form-label text-muted small mb-1">Indicaciones para la entrega (opcional)</label>
-                <textarea className="form-control bg-light border-0" rows="2" value={cliente.indicaciones || 'El martes no estaremos en el depto, pero puede dejárselo con el conserje.'} readOnly />
+                <textarea className="form-control bg-light border-0" rows="2" value={cliente.indicaciones || ''} readOnly />
               </div>
             </div>
 
@@ -121,15 +115,15 @@ export const CompraExitosa = ({ ordenData, setVistaActual }) => {
 
             {/* Botones de Acción */}
             <div className="d-flex justify-content-center gap-3">
-              <button className="btn btn-danger fw-semibold px-4" onClick={handlePrint}>
+              <button className="btn btn-dark fw-semibold px-4" onClick={handlePrint}>
                 🖨️ Imprimir boleta en PDF
               </button>
               <button className="btn btn-success fw-semibold px-4" onClick={() => alert(`Boleta enviada al correo ${cliente.correo}`)}>
                 ✉️ Enviar boleta por email
               </button>
-              <button className="btn btn-dark fw-semibold px-4" onClick={() => setVistaActual('categorias')}>
+              <Link to="/categorias" className="btn btn-dark fw-semibold px-4">
                 Ir a la Tienda
-              </button>
+              </Link>
             </div>
           </div>
         </div>

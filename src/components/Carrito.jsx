@@ -1,28 +1,23 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
-<<<<<<< HEAD
-export const Carrito = ({ carrito, setCarrito, finalizarCompra }) => {
-  const [cliente, setCliente] = useState({
-=======
 export const Carrito = ({ carrito, setCarrito, procesarPago }) => {
   const [datosCliente, setDatosCliente] = useState({
->>>>>>> 3b44f98ce5c6f5ea3f2302eecd07c2b1e8bf45d3
     nombre: '',
     apellidos: '',
     correo: '',
     calle: '',
-<<<<<<< HEAD
     departamento: '',
     region: 'Región Metropolitana de Santiago',
-    comuna: 'Cerrillos',
+    comuna: '',
     indicaciones: ''
-=======
-    comuna: ''
->>>>>>> 3b44f98ce5c6f5ea3f2302eecd07c2b1e8bf45d3
   });
 
   const total = carrito.reduce((acc, item) => acc + item.precio * item.cantidad, 0);
+
+  const actualizarCampo = (campo) => (e) => {
+    setDatosCliente({ ...datosCliente, [campo]: e.target.value });
+  };
 
   const handleEliminar = (id) => {
     setCarrito(carrito.filter(item => item.id !== id));
@@ -30,47 +25,26 @@ export const Carrito = ({ carrito, setCarrito, procesarPago }) => {
 
   const handlePagar = (e) => {
     e.preventDefault();
-<<<<<<< HEAD
-    if (carrito.length === 0) return alert('El carrito está vacío.');
-    
-    // Generar orden y llamar a la función de finalización sin usar alert() emergente
-    const nuevaOrden = {
-      ordenId: Math.floor(100000 + Math.random() * 900000).toString(),
-      cliente,
-      productos: [...carrito],
-      total
-    };
-    
-    finalizarCompra(nuevaOrden);
-=======
     if (carrito.length === 0) {
-      alert('El carrito está vacío');
+      alert('El carrito está vacío.');
       return;
     }
     procesarPago(datosCliente, true);
->>>>>>> 3b44f98ce5c6f5ea3f2302eecd07c2b1e8bf45d3
   };
 
   return (
     <div className="container my-4">
-<<<<<<< HEAD
       <h2 className="mb-4 fw-bold">Carrito de Compras</h2>
-      
-      {carrito.length === 0 ? (
-        <div className="alert alert-info">El carrito de compras está vacío.</div>
-=======
-      <h2 className="mb-4">Carrito de Compras</h2>
 
       {carrito.length === 0 ? (
         <div className="card shadow-sm p-4 text-center">
-          <p className="text-muted mb-3">El carrito está vacío.</p>
+          <p className="text-muted mb-3">El carrito de compras está vacío.</p>
           <div className="d-flex justify-content-center">
             <Link to="/categorias" className="btn btn-primary">
               Ver productos
             </Link>
           </div>
         </div>
->>>>>>> 3b44f98ce5c6f5ea3f2302eecd07c2b1e8bf45d3
       ) : (
         <div className="row g-4">
           <div className="col-12 col-lg-7">
@@ -84,12 +58,6 @@ export const Carrito = ({ carrito, setCarrito, procesarPago }) => {
                     <th>Subtotal</th>
                     <th>Acción</th>
                   </tr>
-<<<<<<< HEAD
-                ))}
-              </tbody>
-            </table>
-            <h4 className="fw-bold mt-3">Total: ${total.toLocaleString('es-CL')}</h4>
-=======
                 </thead>
                 <tbody>
                   {carrito.map((item) => (
@@ -108,85 +76,96 @@ export const Carrito = ({ carrito, setCarrito, procesarPago }) => {
                 </tbody>
               </table>
             </div>
-            <h4>Total: ${total.toLocaleString('es-CL')}</h4>
+            <h4 className="fw-bold mt-3">Total: ${total.toLocaleString('es-CL')}</h4>
             <Link to="/categorias" className="btn btn-outline-secondary mt-2">
               Seguir comprando
             </Link>
->>>>>>> 3b44f98ce5c6f5ea3f2302eecd07c2b1e8bf45d3
           </div>
 
           <div className="col-12 col-lg-5">
             <div className="card p-4 shadow-sm border-0 rounded-3">
               <h5 className="fw-bold mb-3">Información del cliente</h5>
               <form onSubmit={handlePagar}>
-<<<<<<< HEAD
                 <div className="mb-2">
-                  <label className="form-label small">Nombre Completo</label>
-                  <input type="text" className="form-control" required value={cliente.nombre} onChange={(e) => setCliente({...cliente, nombre: e.target.value})} />
-                </div>
-                <div className="mb-2">
-                  <label className="form-label small">Correo Electrónico</label>
-                  <input type="email" className="form-control" required value={cliente.correo} onChange={(e) => setCliente({...cliente, correo: e.target.value})} />
-                </div>
-                <div className="mb-3">
-                  <label className="form-label small">Dirección de Envío</label>
-                  <input type="text" className="form-control" required value={cliente.calle} onChange={(e) => setCliente({...cliente, calle: e.target.value})} />
-                </div>
-
-                <button type="submit" className="btn btn-success w-100 py-2 fw-bold">
-=======
-                <div className="mb-3">
-                  <label className="form-label">Nombre</label>
+                  <label className="form-label small">Nombre*</label>
                   <input
                     type="text"
                     className="form-control"
                     required
                     value={datosCliente.nombre}
-                    onChange={(e) => setDatosCliente({ ...datosCliente, nombre: e.target.value })}
+                    onChange={actualizarCampo('nombre')}
                   />
                 </div>
-                <div className="mb-3">
-                  <label className="form-label">Apellidos</label>
+                <div className="mb-2">
+                  <label className="form-label small">Apellidos*</label>
                   <input
                     type="text"
                     className="form-control"
                     required
                     value={datosCliente.apellidos}
-                    onChange={(e) => setDatosCliente({ ...datosCliente, apellidos: e.target.value })}
+                    onChange={actualizarCampo('apellidos')}
                   />
                 </div>
-                <div className="mb-3">
-                  <label className="form-label">Correo Electrónico</label>
+                <div className="mb-2">
+                  <label className="form-label small">Correo Electrónico*</label>
                   <input
                     type="email"
                     className="form-control"
                     required
                     value={datosCliente.correo}
-                    onChange={(e) => setDatosCliente({ ...datosCliente, correo: e.target.value })}
+                    onChange={actualizarCampo('correo')}
                   />
                 </div>
-                <div className="mb-3">
-                  <label className="form-label">Dirección de Envío</label>
+                <div className="mb-2">
+                  <label className="form-label small">Calle*</label>
                   <input
                     type="text"
                     className="form-control"
                     required
                     value={datosCliente.calle}
-                    onChange={(e) => setDatosCliente({ ...datosCliente, calle: e.target.value })}
+                    onChange={actualizarCampo('calle')}
                   />
                 </div>
-                <div className="mb-3">
-                  <label className="form-label">Comuna</label>
+                <div className="mb-2">
+                  <label className="form-label small">Departamento (opcional)</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    value={datosCliente.departamento}
+                    onChange={actualizarCampo('departamento')}
+                  />
+                </div>
+                <div className="mb-2">
+                  <label className="form-label small">Región*</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    required
+                    value={datosCliente.region}
+                    onChange={actualizarCampo('region')}
+                  />
+                </div>
+                <div className="mb-2">
+                  <label className="form-label small">Comuna*</label>
                   <input
                     type="text"
                     className="form-control"
                     required
                     value={datosCliente.comuna}
-                    onChange={(e) => setDatosCliente({ ...datosCliente, comuna: e.target.value })}
+                    onChange={actualizarCampo('comuna')}
                   />
                 </div>
-                <button type="submit" className="btn btn-success w-100">
->>>>>>> 3b44f98ce5c6f5ea3f2302eecd07c2b1e8bf45d3
+                <div className="mb-3">
+                  <label className="form-label small">Indicaciones para la entrega (opcional)</label>
+                  <textarea
+                    className="form-control"
+                    rows="2"
+                    value={datosCliente.indicaciones}
+                    onChange={actualizarCampo('indicaciones')}
+                  />
+                </div>
+
+                <button type="submit" className="btn btn-success w-100 py-2 fw-bold">
                   Pagar ahora ${total.toLocaleString('es-CL')}
                 </button>
               </form>
