@@ -1,48 +1,49 @@
 import React from 'react';
+import { Link, NavLink } from 'react-router-dom';
 
-export const Navbar = ({ totalCarrito, cantidadItems, setVistaActual, vistaActual }) => {
+export const Navbar = ({ totalCarrito, cantidadItems }) => {
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark mb-4 px-3 shadow">
       <div className="container-fluid">
-        <a 
-          className="navbar-brand fw-bold fs-4 d-flex align-items-center gap-2" 
-          href="#" 
-          onClick={(e) => { e.preventDefault(); setVistaActual('home'); }}
-        >
+        <Link className="navbar-brand fw-bold fs-4" to="/">
           📦 LogiStock
-        </a>
+          <small className="d-block text-white-50 fw-normal" style={{ fontSize: '0.65rem' }}>
+            Retail &amp; Tecnología
+          </small>
+        </Link>
 
-        <div className="d-flex align-items-center gap-2 ms-auto">
-          <button 
-            className={`btn ${vistaActual === 'home' ? 'btn-primary' : 'btn-outline-light'}`}
-            onClick={() => setVistaActual('home')}
+        <div className="d-flex align-items-center gap-2 flex-wrap justify-content-end">
+          <NavLink
+            to="/"
+            end
+            className={({ isActive }) => `btn ${isActive ? 'btn-primary' : 'btn-outline-light'}`}
           >
             Inicio
-          </button>
-          <button 
-            className={`btn ${vistaActual === 'categorias' ? 'btn-primary' : 'btn-outline-light'}`}
-            onClick={() => setVistaActual('categorias')}
+          </NavLink>
+          <NavLink
+            to="/categorias"
+            className={({ isActive }) => `btn ${isActive ? 'btn-primary' : 'btn-outline-light'}`}
           >
-            Categorías
-          </button>
-          <button 
-            className={`btn ${vistaActual === 'ofertas' ? 'btn-warning text-dark fw-bold' : 'btn-outline-warning'}`}
-            onClick={() => setVistaActual('ofertas')}
+            Catálogo
+          </NavLink>
+          <NavLink
+            to="/ofertas"
+            className={({ isActive }) => `btn ${isActive ? 'btn-warning text-dark fw-bold' : 'btn-outline-warning'}`}
           >
             Ofertas 🔥
-          </button>
-          <button 
-            className={`btn ${vistaActual === 'admin' ? 'btn-info text-white' : 'btn-outline-info'}`}
-            onClick={() => setVistaActual('admin')}
+          </NavLink>
+          <NavLink
+            to="/admin"
+            className={({ isActive }) => `btn ${isActive ? 'btn-info text-dark' : 'btn-outline-info'}`}
           >
             ⚙️ Admin
-          </button>
-          <button 
-            className="btn btn-success fw-bold"
-            onClick={() => setVistaActual('carrito')}
+          </NavLink>
+          <NavLink
+            to="/carrito"
+            className={({ isActive }) => `btn ${isActive ? 'btn-success' : 'btn-outline-success'}`}
           >
-            🛒 Salidas ({cantidadItems}) - ${totalCarrito.toLocaleString('es-CL')}
-          </button>
+            🛒 Carrito ({cantidadItems}) - ${totalCarrito.toLocaleString('es-CL')}
+          </NavLink>
         </div>
       </div>
     </nav>

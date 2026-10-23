@@ -91,7 +91,7 @@ function App() {
 
       {!esAdmin && (
         <footer className="bg-dark text-white-50 text-center py-3 mt-5">
-          <small>Tienda Online · Los mejores videojuegos al mejor precio</small>
+          <small>LogiStock · Retail y tecnología con inventario en tiempo real</small>
         </footer>
       )}
     </div>

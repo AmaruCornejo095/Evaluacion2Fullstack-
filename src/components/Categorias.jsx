@@ -20,7 +20,10 @@ export const Categorias = ({ agregarAlCarrito }) => {
 
   return (
     <div className="container my-4">
-      <h2 className="mb-4 text-center">Categorías</h2>
+      <h2 className="mb-2 text-center">Catálogo de Productos</h2>
+      <p className="text-muted text-center mb-4">
+        Inventario disponible en la bodega de San Bernardo, con ubicación y stock actualizado.
+      </p>
 
       <div className="row justify-content-center mb-4">
         {categoriasList.map((cat, idx) => (
@@ -35,7 +38,12 @@ export const Categorias = ({ agregarAlCarrito }) => {
         ))}
       </div>
 
-      <h3 className="mb-3">{categoriaSeleccionada}</h3>
+      <div className="d-flex justify-content-between align-items-center mb-3">
+        <h3 className="mb-0">{categoriaSeleccionada}</h3>
+        <span className="badge bg-light text-secondary border">
+          {productosFiltrados.length} {productosFiltrados.length === 1 ? 'producto' : 'productos'}
+        </span>
+      </div>
       <div className="row g-4">
         {productosFiltrados.map((item) => (
           <div key={item.id} className="col-12 col-sm-6 col-md-4 col-lg-3">
